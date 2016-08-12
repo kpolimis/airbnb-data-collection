@@ -120,7 +120,8 @@ def init():
         config.read(config_file)
         # database
         global DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
-        DB_HOST = config["DATABASE"]["db_host"] if ("db_host" in config["DATABASE"]) else None
+        DB_HOST = config["DATABASE"]["db_host"] if \
+            ("db_host" in config["DATABASE"]) else None
         DB_PORT = config["DATABASE"]["db_port"]
         DB_NAME = config["DATABASE"]["db_name"]
         DB_USER = config["DATABASE"]["db_user"]
@@ -167,12 +168,14 @@ def init():
 def connect():
     """ Return a connection to the database"""
     try:
-        if not hasattr(connect, "conn") or connect.conn is None or connect.conn.closed != 0:
+        if not hasattr(connect, "conn") \
+          or connect.conn is None or connect.conn.closed != 0:
             cattr = dict(
                 user=DB_USER,
                 password=DB_PASSWORD,
                 database=DB_NAME
             )
+            # potentially change to: if DB_HOST is not None:
             if not DB_HOST == None:
                 cattr.update(dict(
                             host=DB_HOST,
@@ -1106,7 +1109,8 @@ class Survey():
                 return
 
             logger.info("Bounding box: " + str(bounding_box))
-            for room_type in ("Private room", "Entire home/apt", "Shared room"):
+            for room_type in ("Private room",
+                              "Entire home/apt", "Shared room"):
                 if room_type in ("Private room", "Shared room"):
                     max_guests = 4
                 else:
@@ -1400,7 +1404,6 @@ def db_add_survey(search_area):
     try:
         conn = connect()
         cur = conn.cursor()
-        # Add an entry into the survey table, and get the survey_id
         sql = """
         insert into survey (survey_description, search_area_id)
         select (name || ' (' || current_date || ')') as survey_description,
@@ -1557,6 +1560,7 @@ def ws_get_city_info(city, flag):
                 "//input[@name='location']/@value")
             neighborhoods = tree.xpath(
                 "//input[@name='neighborhood']/@value")
+            flag = FLAGS_ADD
             if flag == FLAGS_PRINT:
                 print("\n", citylist[0])
                 print("Neighborhoods:")

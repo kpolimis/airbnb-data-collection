@@ -1,3 +1,9 @@
+#Ipython Notebook
+.ipynb_checkpoints
+
+# credentialed files
+kivan.config
+
 *#
 =======
 *.swp
@@ -33,4 +39,3 @@ googlemaps.py
 /postgresql/*.bat
 /postgresql/test.sql
 /postgresql/shapefiles/*
-
